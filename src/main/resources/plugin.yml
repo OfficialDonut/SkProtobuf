@@ -1,0 +1,14 @@
+name: SkProtobuf
+version: 0.0.1
+main: com.github.officialdonut.skprotobuf.SkProtobuf
+api-version: "1.21.4"
+depend: [Skript]
+
+permissions:
+  skprotobuf.admin:
+    default: op
+
+commands:
+  skprotobuf:
+    aliases: [skproto]
+    permission: skprotobuf.admin
