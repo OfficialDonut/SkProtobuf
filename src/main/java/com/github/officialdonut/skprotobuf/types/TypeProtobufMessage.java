@@ -21,6 +21,7 @@ public class TypeProtobufMessage {
     static {
         Classes.registerClass(new ClassInfo<>(Message.class, "protobufmessage")
                 .name("Protobuf Message")
+                .user("protobuf ?message")
                 .parser(new ProtbufMessageParser())
                 .serializer(new ProtobufMessageSerializer()));
     }
