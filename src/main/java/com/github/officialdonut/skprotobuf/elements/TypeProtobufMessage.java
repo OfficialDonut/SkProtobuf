@@ -1,4 +1,4 @@
-package com.github.officialdonut.skprotobuf.types;
+package com.github.officialdonut.skprotobuf.elements;
 
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Parser;
@@ -21,7 +21,7 @@ public class TypeProtobufMessage {
     static {
         Classes.registerClass(new ClassInfo<>(Message.class, "protobufmessage")
                 .name("Protobuf Message")
-                .user("protobuf ?message")
+                .user("protobuf ?messages?")
                 .parser(new ProtbufMessageParser())
                 .serializer(new ProtobufMessageSerializer()));
     }

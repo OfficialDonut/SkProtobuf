@@ -22,7 +22,7 @@ import java.util.logging.Level;
 public class ExprJsonProtoMessage extends SimpleExpression<Message> {
 
     static {
-        Skript.registerExpression(ExprJsonProtoMessage.class, Message.class, ExpressionType.COMBINED, "%string% [parsed] as proto[buf] [message] %-string%");
+        Skript.registerExpression(ExprJsonProtoMessage.class, Message.class, ExpressionType.COMBINED, "%string% [parsed] as proto[buf] [message] %*string%");
     }
 
     private Expression<String> exprJson;

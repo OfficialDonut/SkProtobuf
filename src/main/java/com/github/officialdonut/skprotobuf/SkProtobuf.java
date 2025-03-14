@@ -22,7 +22,7 @@ public class SkProtobuf extends JavaPlugin {
         protoManager.loadDescriptors();
 
         try {
-            Skript.registerAddon(this).loadClasses("com.github.officialdonut.skprotobuf", "elements", "types");
+            Skript.registerAddon(this).loadClasses("com.github.officialdonut.skprotobuf.elements");
         } catch (IOException e) {
             getLogger().log(Level.SEVERE, "Failed to register Skript elements", e);
         }
