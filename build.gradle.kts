@@ -34,6 +34,10 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.processResources {
+    expand("version" to project.version)
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
