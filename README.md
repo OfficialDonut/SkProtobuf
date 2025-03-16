@@ -12,7 +12,7 @@ Use the `--include_imports` option to create a self-contained descriptor set:
 ```
 --include_imports  When using --descriptor_set_out, also include
                    all dependencies of the input files in the
-                   et, so that the set is self-contained.
+                   set, so that the set is self-contained.
 ```
 Place descriptor set files in the folder `plugins/SkProtobuf/descriptors` on your server.
 
