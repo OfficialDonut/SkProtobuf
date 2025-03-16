@@ -18,6 +18,7 @@ public class ProtoManager {
     private Map<String, DescriptorProtos.FileDescriptorProto> protos;
     private Map<String, Descriptors.FileDescriptor> fileDescriptors;
     private Map<String, Descriptors.Descriptor> messageDescriptors;
+    private Map<String, Descriptors.EnumValueDescriptor> enumValueDescriptors;
     private JsonFormat.Printer jsonPrinter;
     private JsonFormat.Parser jsonParser;
     private final Path descriptorDir;
@@ -35,6 +36,7 @@ public class ProtoManager {
         protos = new HashMap<>();
         fileDescriptors = new HashMap<>();
         messageDescriptors = new HashMap<>();
+        enumValueDescriptors = new HashMap<>();
 
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(descriptorDir)) {
             for (Path path : stream) {
@@ -51,6 +53,12 @@ public class ProtoManager {
                 for (Descriptors.Descriptor descriptor : fileDescriptor.getMessageTypes()) {
                     messageDescriptors.put(descriptor.getFullName(), descriptor);
                     messageDescriptors.putIfAbsent(descriptor.getName(), descriptor);
+                }
+                for (Descriptors.EnumDescriptor enumDescriptor : fileDescriptor.getEnumTypes()) {
+                    for (Descriptors.EnumValueDescriptor descriptor : enumDescriptor.getValues()) {
+                        enumValueDescriptors.put(descriptor.getFullName(), descriptor);
+                        enumValueDescriptors.putIfAbsent(descriptor.getName(), descriptor);
+                    }
                 }
             }
             TypeRegistry typeRegistry = TypeRegistry.newBuilder().add(new HashSet<>(messageDescriptors.values())).build();
@@ -90,6 +98,10 @@ public class ProtoManager {
 
     public Descriptors.Descriptor getMessageDescriptor(String name) {
         return messageDescriptors.get(name);
+    }
+
+    public Descriptors.EnumValueDescriptor getEnumValueDescriptor(String name) {
+        return enumValueDescriptors.get(name);
     }
 
     public JsonFormat.Printer getJsonPrinter() {

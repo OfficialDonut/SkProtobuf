@@ -11,28 +11,23 @@ import ch.njol.util.Kleenean;
 import com.github.officialdonut.skprotobuf.SkProtobuf;
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.DynamicMessage;
-import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.logging.Level;
-
-@Name("JSON Protobuf Message")
-public class ExprJsonProtoMessage extends SimpleExpression<Message> {
+@Name("Protobuf Message Default Instance")
+public class ExprDefaultInstance extends SimpleExpression<Message> {
 
     static {
-        Skript.registerExpression(ExprJsonProtoMessage.class, Message.class, ExpressionType.COMBINED, "%string% [parsed] as proto[buf] [message] %*string%");
+        Skript.registerExpression(ExprDefaultInstance.class, Message.class, ExpressionType.COMBINED, "default instance of proto[buf] [message] %*string%");
     }
 
-    private Expression<String> exprJson;
     private Descriptors.Descriptor descriptor;
 
     @Override
     @SuppressWarnings("unchecked")
     public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-        exprJson = (Expression<String>) expressions[0];
-        String messageName = ((Literal<String>) expressions[1]).getSingle();
+        String messageName = ((Literal<String>) expressions[0]).getSingle();
         descriptor = SkProtobuf.getInstance().getProtoManager().getMessageDescriptor(messageName);
         if (descriptor == null) {
             Skript.error("Failed to find descriptor for message: " + messageName);
@@ -43,17 +38,7 @@ public class ExprJsonProtoMessage extends SimpleExpression<Message> {
 
     @Override
     protected @Nullable Message[] get(Event event) {
-        try {
-            String json = exprJson.getSingle(event);
-            if (json != null) {
-                Message.Builder builder = DynamicMessage.newBuilder(descriptor);
-                SkProtobuf.getInstance().getProtoManager().getJsonParser().merge(json, builder);
-                return new Message[]{builder.build()};
-            }
-        } catch (InvalidProtocolBufferException e) {
-            SkProtobuf.getInstance().getLogger().log(Level.WARNING,"Failed to parse protobuf message", e);
-        }
-        return null;
+        return new Message[]{DynamicMessage.getDefaultInstance(descriptor)};
     }
 
     @Override
@@ -68,6 +53,6 @@ public class ExprJsonProtoMessage extends SimpleExpression<Message> {
 
     @Override
     public String toString(@Nullable Event event, boolean b) {
-        return exprJson.toString(event, b) + " parsed as protobuf message " + descriptor;
+        return "default instance of protobuf message " + descriptor;
     }
 }
