@@ -1,8 +1,6 @@
 package com.github.officialdonut.skprotobuf;
 
-import com.google.protobuf.DescriptorProtos;
-import com.google.protobuf.Descriptors;
-import com.google.protobuf.TypeRegistry;
+import com.google.protobuf.*;
 import com.google.protobuf.util.JsonFormat;
 
 import java.io.IOException;
@@ -90,6 +88,28 @@ public class ProtoManager {
             SkProtobuf.getInstance().getLogger().log(Level.SEVERE, "Failed to load descriptors", e);
             return null;
         }
+    }
+
+    public static Object convertObject(Object object, Descriptors.FieldDescriptor.JavaType type) {
+        return switch (type) {
+            case INT -> object instanceof Number n ? n.intValue() : object;
+            case LONG -> object instanceof Number n ? n.longValue() : object;
+            case FLOAT -> object instanceof Number n ? n.floatValue() : object;
+            case DOUBLE -> object instanceof Number n ? n.doubleValue() : object;
+            case MESSAGE -> object instanceof Message.Builder builder ? builder.build() : object;
+            default -> object;
+        };
+    }
+
+    public static Class<?> getConvertibleSupertype(Descriptors.FieldDescriptor.JavaType type) {
+        return switch (type) {
+            case INT, LONG, FLOAT, DOUBLE -> Number.class;
+            case BOOLEAN -> Boolean.class;
+            case STRING -> String.class;
+            case ENUM -> Descriptors.EnumValueDescriptor.class;
+            case MESSAGE -> MessageOrBuilder.class;
+            default -> Object.class;
+        };
     }
 
     public Set<Descriptors.FileDescriptor> getFileDescriptors() {

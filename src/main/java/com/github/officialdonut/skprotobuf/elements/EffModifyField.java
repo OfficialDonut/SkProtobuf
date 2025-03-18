@@ -7,6 +7,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.util.LiteralUtils;
 import ch.njol.util.Kleenean;
+import com.github.officialdonut.skprotobuf.ProtoManager;
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.Message;
 import org.bukkit.event.Event;
@@ -62,28 +63,17 @@ public class EffModifyField extends Effect {
         if (matchedPattern == 0) {
             Object delta = exprDelta.getSingle(event);
             if (delta != null) {
-                builder.setField(fieldDescriptor, convertDelta(delta, fieldDescriptor.getJavaType()));
+                builder.setField(fieldDescriptor, ProtoManager.convertObject(delta, fieldDescriptor.getJavaType()));
             } else {
                 builder.clearField(fieldDescriptor);
             }
         } else if (matchedPattern == 1) {
             for (Object object : exprDelta.getArray(event)) {
-                builder.addRepeatedField(fieldDescriptor, convertDelta(object, fieldDescriptor.getJavaType()));
+                builder.addRepeatedField(fieldDescriptor, ProtoManager.convertObject(object, fieldDescriptor.getJavaType()));
             }
         } else {
             builder.clearField(fieldDescriptor);
         }
-    }
-
-    private Object convertDelta(Object delta, Descriptors.FieldDescriptor.JavaType type) {
-        return switch (type) {
-            case INT -> delta instanceof Number n ? n.intValue() : delta;
-            case LONG -> delta instanceof Number n ? n.longValue() : delta;
-            case FLOAT -> delta instanceof Number n ? n.floatValue() : delta;
-            case DOUBLE -> delta instanceof Number n ? n.doubleValue() : delta;
-            case MESSAGE -> delta instanceof Message.Builder builder ? builder.build() : delta;
-            default -> delta;
-        };
     }
 
     @Override
