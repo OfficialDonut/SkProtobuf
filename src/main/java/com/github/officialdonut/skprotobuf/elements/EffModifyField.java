@@ -18,7 +18,7 @@ public class EffModifyField extends Effect {
 
     static {
         Skript.registerEffect(EffModifyField.class,
-                "set proto[buf] [message] field %string% (in|of) %protobufmessagebuilder% to %object%",
+                "set proto[buf] [message] field %string% (in|of) %protobufmessagebuilder% to %objects%",
                 "add %objects% to proto[buf] [message] field %string% (in|of) %protobufmessagebuilder%",
                 "clear proto[buf] [message] field %string% (in|of) %protobufmessagebuilder%");
     }
@@ -61,11 +61,18 @@ public class EffModifyField extends Effect {
             return;
         }
         if (matchedPattern == 0) {
-            Object delta = exprDelta.getSingle(event);
-            if (delta != null) {
-                builder.setField(fieldDescriptor, ProtoManager.convertObject(delta, fieldDescriptor.getJavaType()));
-            } else {
+            if (fieldDescriptor.isRepeated()) {
                 builder.clearField(fieldDescriptor);
+                for (Object delta : exprDelta.getArray(event)) {
+                    builder.addRepeatedField(fieldDescriptor, ProtoManager.convertObject(delta, fieldDescriptor.getJavaType()));
+                }
+            } else {
+                Object delta = exprDelta.getSingle(event);
+                if (delta != null) {
+                    builder.setField(fieldDescriptor, ProtoManager.convertObject(delta, fieldDescriptor.getJavaType()));
+                } else {
+                    builder.clearField(fieldDescriptor);
+                }
             }
         } else if (matchedPattern == 1) {
             for (Object object : exprDelta.getArray(event)) {
