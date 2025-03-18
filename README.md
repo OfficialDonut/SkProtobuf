@@ -18,6 +18,11 @@ Use the `--include_imports` option to create a self-contained descriptor set:
 ```
 Place descriptor set files in the folder `plugins/SkProtobuf/descriptors` on your server.
 
+## Commands
+| Command         | Permission         | Description         |
+|-----------------|--------------------|---------------------|
+| /skproto reload | skprotobuf.admin   | Reload descriptors. |
+
 ## Examples
 > [!TIP]
 > You can reference messages by their fully qualified name or you may omit the package if the message name is unambiguous.
