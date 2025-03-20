@@ -4,7 +4,7 @@ Skript addon that adds support for [protobuf](https://protobuf.dev/).
 [![SkriptHubViewTheDocs](http://skripthub.net/static/addon/ViewTheDocsButton.png)](http://skripthub.net/docs/?addon=SkProtobuf)
 
 ## Usage
-SkProtobuf requires a descriptor set for the protobuf messages you wish to use with Skript. Use protoc's `--descriptor_set_out` option to generate a descriptor set:
+SkProtobuf requires a descriptor set for the protobuf messages you wish to use with Skript. Use protoc's `descriptor_set_out` option to generate a descriptor set:
 ```
 -oFILE,                      Writes a FileDescriptorSet (a protocol buffer,
   --descriptor_set_out=FILE  defined in descriptor.proto) containing all of
