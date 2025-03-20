@@ -27,7 +27,7 @@ Place descriptor set files in the folder `plugins/SkProtobuf/descriptors` on you
 > [!TIP]
 > You can reference messages by their fully qualified name or you may omit the package if the message name is unambiguous.
 
-##### Proto
+#### Proto
 ```protobuf
 syntax = "proto3";
 
@@ -36,14 +36,21 @@ message Example {
   repeated uint32 bar = 2;
 }
 ```
-##### Message Builder
+#### Message Builder
+Option 1:
+```
+set {_builder} to builder for proto message "Example":
+  foo: "hello world"
+  bar: 1, 2, and 3
+```
+Option 2:
 ```
 set {_builder} to builder for proto message "Example"
 set proto field "foo" in {_builder} to "hello world"
 add 1, 2, and 3 to proto field "bar" in {_builder}
 set {_message} to proto message from builder {_builder}
 ```
-##### JSON
+#### JSON
 ```
 # parse from JSON string
 set {_message} to "{""foo"": ""hello world"", bar: [1, 2, 3]}" parsed as proto message "Example"
