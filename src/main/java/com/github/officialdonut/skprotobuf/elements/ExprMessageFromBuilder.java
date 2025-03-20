@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 public class ExprMessageFromBuilder extends SimpleExpression<Message> {
 
     static {
-        Skript.registerExpression(ExprMessageFromBuilder.class, Message.class, ExpressionType.COMBINED, "proto[buf] [message] from builder %protobufmessagebuilder%");
+        Skript.registerExpression(ExprMessageFromBuilder.class, Message.class, ExpressionType.COMBINED, "proto[buf] [message] from [builder] %protobufmessagebuilder%");
     }
 
     private Expression<Message.Builder> exprBuilder;

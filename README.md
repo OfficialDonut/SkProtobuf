@@ -48,6 +48,9 @@ Option 2:
 set {_builder} to builder for proto message "Example"
 set proto field "foo" in {_builder} to "hello world"
 add 1, 2, and 3 to proto field "bar" in {_builder}
+```
+Create message from builder:
+```
 set {_message} to proto message from builder {_builder}
 ```
 #### JSON
