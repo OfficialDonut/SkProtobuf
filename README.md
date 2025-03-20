@@ -40,8 +40,8 @@ message Example {
 Option 1:
 ```
 set {_builder} to builder for proto message "Example":
-  foo: "hello world"
-  bar: 1, 2, and 3
+    foo: "hello world"
+    bar: 1, 2, and 3
 ```
 Option 2:
 ```
