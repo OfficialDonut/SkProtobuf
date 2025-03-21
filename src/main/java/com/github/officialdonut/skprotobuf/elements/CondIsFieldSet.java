@@ -17,8 +17,8 @@ public class CondIsFieldSet extends Condition {
 
     static {
         Skript.registerCondition(CondIsFieldSet.class,
-                "proto[buf] [message] field %strings% (is|are) set in %protobufmessageorbuilders%",
-                "proto[buf] [message] field %strings% (isn't|is not|aren't|are not) set in %protobufmessageorbuilders%");
+                "proto[buf] [message] field[s] %strings% (is|are) set in %protobufmessageorbuilders%",
+                "proto[buf] [message] field[s] %strings% (isn't|is not|aren't|are not) set in %protobufmessageorbuilders%");
     }
 
     private Expression<String> exprField;
